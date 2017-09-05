@@ -1,6 +1,8 @@
-package io.github.mayunfei.simple;
+package io.github.mayunfei.simple.apt;
 
 import android.content.Context;
+
+import io.github.mayunfei.simple.*;
 
 /**
  * GlideApp 模拟

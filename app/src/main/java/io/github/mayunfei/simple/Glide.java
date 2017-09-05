@@ -4,6 +4,7 @@ import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import io.github.mayunfei.simple.apt.GeneratedRequestManagerFactory;
 import io.github.mayunfei.simple.manager.RequestManagerRetriever;
 
 /**
@@ -13,17 +14,19 @@ import io.github.mayunfei.simple.manager.RequestManagerRetriever;
 public class Glide implements ComponentCallbacks {
     private static volatile Glide glide;
     private static volatile boolean isInitializing;
+    private final RequestManagerRetriever requestManagerRetriever;
 
-    public Glide() {
+    public Glide(RequestManagerRetriever requestManagerRetriever) {
         //模拟 glide 初始化
+        this.requestManagerRetriever = requestManagerRetriever;
     }
 
     public static RequestManager with(Context context) {
         return Glide.get(context).getRequestManagerRetriever().get(context);
     }
 
-    private RequestManagerRetriever getRequestManagerRetriever() {
-        return null;
+    public RequestManagerRetriever getRequestManagerRetriever() {
+        return requestManagerRetriever;
     }
 
     public static Glide get(Context context) {
@@ -56,8 +59,9 @@ public class Glide implements ComponentCallbacks {
         //或者 通过 Manifest文件获得
         //将model 关联到 glide builder
         //
+        Glide glide = new Glide(new RequestManagerRetriever(new GeneratedRequestManagerFactory()));
         context.getApplicationContext().registerComponentCallbacks(glide); //将系统状态注册到Glide中
-        glide = new Glide();
+        Glide.glide = glide;
     }
 
     @Override
